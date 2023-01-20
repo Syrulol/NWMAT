@@ -71,3 +71,22 @@ pollHighInterest <- function(){
     activeToCSV(paste(highInterestItems[i]," Query", sep = ""))
   }
 }
+
+#Appends high interest vector with new string.
+addHighInterest <- function(addHighString){
+  for(i in 1:length(highInterestItems)){
+    if(highInterestItems[i]==addHighString){
+      return("Item Exists!")
+      }
+    else{
+      highInterestItems <- append(highInterestItems,addHighString)
+      return(highInterestItems)
+      }
+    }
+}
+
+#Searches high interest vector and removes matched string.
+removeHighInterest <- function (removeHighString){
+  highInterestItems[ !highInterestItems == removeHighString]
+  return(highInterestItems)
+}
