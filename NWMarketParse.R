@@ -170,3 +170,12 @@ getGlobalHealth <- function(){
   colnames(ghReturn) <- c("server", "deviation", "dateupdated")
   return (ghReturn)
 }
+
+#Exports global health as a CSV at default file location.
+#Args: N/A
+printGlobalHealth <- function(){
+  date <- Sys.Date()
+  timeStamp.str <- as.character(date)
+  setActiveFrame(getGlobalHealth())
+  activeToCSV(paste(timeStamp.str," Health Query", sep = ""))
+}
