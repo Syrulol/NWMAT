@@ -1,7 +1,5 @@
 ##Library Declarations
 library(jsonlite)
-#I want to use lubridate now() to timestamp query outputs, I just haven't done it yet.
-#library(lubridate)
 library(dplyr)
 ##Global Variable Declarations
 urlStructure <- "https://nwmarketprices.com/api/latest-prices/"
@@ -70,6 +68,21 @@ pollHighInterest <- function(){
     setActiveFrame(filterByItem(pollHelpString))
     activeToCSV(paste(highInterestItems[i]," Query", sep = ""))
   }
+}
+
+#Polls targeted data in vector "highInterestItems", exports as CSV, saves at "defaultFilePath" with title "<date> Query". 
+#Consolidated feature for archival of PollHIghInterest
+pollHighInterestLong <- function(){
+  returnLongDf <- data.frame()
+  date <- Sys.Date()
+  timeStamp.str <- as.character(date)
+  for(i in 1:length(highInterestItems)){
+    pollHelpString <- highInterestItems[i]
+    print(pollHelpString)
+    returnLongDf <- rbind(returnLongDf, filterByItem(pollHelpString))
+  }
+  setActiveFrame(returnLongDf)
+  activeToCSV(paste(timeStamp.str," Query", sep = ""))
 }
 
 #Appends high interest vector with new string.
