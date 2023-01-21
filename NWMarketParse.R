@@ -4,7 +4,7 @@ library(dplyr)
 ##Global Variable Declarations
 urlStructure <- "https://nwmarketprices.com/api/latest-prices/"
 defaultFilePath <- "C:\\Users\\44jmn\\OneDrive\\Documents\\NWMAT\\"
-highInterestItems <- c("Iron Ore", "Iron Ingot", "Steel Ingot", "Starmetal Ore", "Starmetal Ingot", "Orichalcum Ore", "Orichalcum Ingot")
+highInterestItems <- c("Iron Ore", "Iron Ingot", "Steel Ingot", "Starmetal Ore", "Starmetal Ingot", "Orichalcum Ore", "Orichalcum Ingot", "Green Wood", "Timber", "Aged Wood", "Lumber", "Wyrdwood", "Wyrdwood Planks", "Ironwood", "Ironwood Planks", "Fibers", "Linen", "Sateen", "Silk Threads", "Silk", "Wirefiber", "Infused Silk", "Rawhide", "Coarse Leather", "Thick Hide", "Rugged Leather", "Layered Leather", "Iron Hide", "Infused Leather", "Stone", "Stone Block", "Stone Brick", "Lodestone", "Lodestone Brick", "Obsidian Voidstone", "Obsidian Sandpaper", "Obsidian Flux", "Aged Tannin", "Pure Solvent", "Wireweave", "Life Mote", "Death Mote", "Water Mote", "Earth Mote", "Air Mote", "Soul Mote", "Fire Mote", "Runic Leather", "Glittering Ebony", "Phoenixweave", "Asmodeum")
 activeDF <- data.frame()
 
 ##Populates all market data as data frames titled by Server Name. Used for establishing global variables, will not update already existing data tables.
