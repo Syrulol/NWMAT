@@ -7,7 +7,8 @@ defaultFilePath <- "C:\\Users\\44jmn\\OneDrive\\Documents\\NWMAT\\"
 highInterestItems <- c("Iron Ore", "Iron Ingot", "Steel Ingot", "Starmetal Ore", "Starmetal Ingot", "Orichalcum Ore", "Orichalcum Ingot", "Green Wood", "Timber", "Aged Wood", "Lumber", "Wyrdwood", "Wyrdwood Planks", "Ironwood", "Ironwood Planks", "Fibers", "Linen", "Sateen", "Silk Threads", "Silk", "Wirefiber", "Infused Silk", "Rawhide", "Coarse Leather", "Thick Hide", "Rugged Leather", "Layered Leather", "Iron Hide", "Infused Leather", "Stone", "Stone Block", "Stone Brick", "Lodestone", "Lodestone Brick", "Obsidian Voidstone", "Obsidian Sandpaper", "Obsidian Flux", "Aged Tannin", "Pure Solvent", "Wireweave", "Life Mote", "Death Mote", "Water Mote", "Earth Mote", "Air Mote", "Soul Mote", "Fire Mote", "Runic Leather", "Glittering Ebony", "Phoenixweave", "Asmodeum")
 activeDF <- data.frame()
 
-##Populates all market data as data frames titled by Server Name. Used for establishing global variables, will not update already existing data tables.
+#Populates all market data as data frames titled by Server Name. Used for establishing global variables, will not update already existing data tables.
+#Args: N/A
 populateMarketData <- function(){
   serverIDCross <- fromJSON("https://nwmarketprices.com/api/servers_updated")
   serverIDCrossClean <<- serverIDCross[["server_last_updated"]]
@@ -30,11 +31,13 @@ populateMarketData <- function(){
 }
 
 #Allows specific cross reference of item in server
+#Args: String queryItemName, String queryServerName
 filterByItemAndServer <- function(queryItemName, queryServerName){
   filter (queryServerName, ItemName == queryItemName)
 }
 
-#Returns a data frame object of the targeted string for item across servers. 
+#Returns a data frame object of the targeted string for item across servers.
+#Args: String queryItemName
 #TODO: Error handling and validation. Probably need to reference a matrix of items to validate-- but that sounds slow.
 filterByItem <- function(queryItemName){
   returnDf <- data.frame()
@@ -48,12 +51,14 @@ filterByItem <- function(queryItemName){
 }
 
 #Moves a returned data frame object into the global environment for manipulation. Probably bandaid for poor variable scoping.
+#Args: Data.Frame PassiveFrame
 setActiveFrame <- function(passiveFrame){
   activeDF <<- passiveFrame
   return(activeDF)
 }
 
 #Converts active data frame into CSV with title of type string in arguments.
+#Args:String docTitle
 activeToCSV <- function(docTitle){
   print(paste(defaultFilePath,docTitle,".csv", sep = ""))
   tibble::glimpse(activeDF)
@@ -61,6 +66,7 @@ activeToCSV <- function(docTitle){
 }
 
 #Polls targeted data in vector "highInterestItems", exports as CSV, saves at "defaultFilePath" with title "<item>Query".
+#Args: N/A
 pollHighInterest <- function(){
   for(i in 1:length(highInterestItems)){
     pollHelpString <- highInterestItems[i]
@@ -72,6 +78,7 @@ pollHighInterest <- function(){
 
 #Polls targeted data in vector "highInterestItems", exports as CSV, saves at "defaultFilePath" with title "<date> Query". 
 #Consolidated feature for archival of PollHIghInterest
+#Args: N/A
 pollHighInterestLong <- function(){
   returnLongDf <- data.frame()
   date <- Sys.Date()
@@ -86,6 +93,7 @@ pollHighInterestLong <- function(){
 }
 
 #Appends high interest vector with new string.
+#Args: String addHighString
 addHighInterest <- function(addHighString){
   for(i in 1:length(highInterestItems)){
     if(highInterestItems[i]==addHighString){
@@ -99,7 +107,29 @@ addHighInterest <- function(addHighString){
 }
 
 #Searches high interest vector and removes matched string.
+#Args: String removeHighString
 removeHighInterest <- function (removeHighString){
   highInterestItems[ !highInterestItems == removeHighString]
   return(highInterestItems)
+}
+
+#Gets average price for item across all servers
+#Args: String itemNameAvg
+getAveragePrice <- function(itemNameAvg){
+  avgHelp <- filterByItem(itemNameAvg)
+  avgHelp <- transform(avgHelp, Price = as.numeric(Price))
+  print(itemNameAvg)
+  return(mean(avgHelp$Price))
+}
+
+#Check Outliers loops through each server's specific value and checks it against the expected value of the global average to identify significant outliers.
+#A value of 1 is expected if item fits global average; a value of 2 would indicate item is twice the price as global average, .5 would indicate half.
+#Args: String itemNameOutlier
+checkOutliers <- function(itemNameOutlier){
+  avgPrice <- getAveragePrice(itemNameOutlier)
+  priceDf <- filterByItem(itemNameOutlier)
+  priceDf <- transform(priceDf, Price = as.numeric(Price))
+  for (i in 1:nrow(priceDf)){
+    print(paste(priceDf[i,1], priceDf[i,3]/avgPrice, sep = " "))
+  }
 }
