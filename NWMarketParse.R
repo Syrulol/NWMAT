@@ -7,6 +7,7 @@ defaultFilePath <- "C:\\Users\\44jmn\\OneDrive\\Documents\\NWMAT\\"
 highInterestItems <- c("Iron Ore", "Iron Ingot", "Steel Ingot", "Starmetal Ore", "Starmetal Ingot", "Orichalcum Ore", "Orichalcum Ingot", "Green Wood", "Timber", "Aged Wood", "Lumber", "Wyrdwood", "Wyrdwood Planks", "Ironwood", "Ironwood Planks", "Fibers", "Linen", "Sateen", "Silk Threads", "Silk", "Wirefiber", "Infused Silk", "Rawhide", "Coarse Leather", "Thick Hide", "Rugged Leather", "Layered Leather", "Iron Hide", "Infused Leather", "Stone", "Stone Block", "Stone Brick", "Lodestone", "Lodestone Brick", "Obsidian Voidstone", "Obsidian Sandpaper", "Obsidian Flux", "Aged Tannin", "Pure Solvent", "Wireweave", "Life Mote", "Death Mote", "Water Mote", "Earth Mote", "Air Mote", "Soul Mote", "Fire Mote", "Runic Leather", "Glittering Ebony", "Phoenixweave", "Asmodeum")
 activeDF <- data.frame()
 
+
 #Populates all market data as data frames titled by Server Name. Used for establishing global variables, will not update already existing data tables.
 #Args: N/A
 populateMarketData <- function(){
@@ -122,14 +123,50 @@ getAveragePrice <- function(itemNameAvg){
   return(mean(avgHelp$Price))
 }
 
-#Check Outliers loops through each server's specific value and checks it against the expected value of the global average to identify significant outliers.
+#Average Deviation loops through each server's specific value and checks it against the expected value of the global average to identify significant outliers.
 #A value of 1 is expected if item fits global average; a value of 2 would indicate item is twice the price as global average, .5 would indicate half.
-#Args: String itemNameOutlier
-checkOutliers <- function(itemNameOutlier){
-  avgPrice <- getAveragePrice(itemNameOutlier)
-  priceDf <- filterByItem(itemNameOutlier)
+#Args: String avgDeviationItem
+avgDeviation <- function(avgDeviationItem){
+  avgDf <- data.frame()
+  avgPrice <- getAveragePrice(avgDeviationItem)
+  priceDf <- filterByItem(avgDeviationItem)
   priceDf <- transform(priceDf, Price = as.numeric(Price))
   for (i in 1:nrow(priceDf)){
-    print(paste(priceDf[i,1], priceDf[i,3]/avgPrice, sep = " "))
+    avgVecHelp <- c(avgDeviationItem, priceDf[i,1], priceDf[i,3]/avgPrice)
+    avgDf <- rbind(avgDf,avgVecHelp)
   }
+  colnames(avgDf) <- c("itemname", "server", "deviation")
+  return(avgDf)
+}
+
+#Returns a data frame object of all items in the high interest list and their deviations from the average price. 
+#Args: N/A
+getHighInterestDeviation <- function(){
+  hidDf <- data.frame()
+  for(i in 1:length(highInterestItems)){
+    hidDf <- rbind(hidDf, avgDeviation(highInterestItems[i]))
+  }
+  return(hidDf)
+}
+
+#Returns a data frame object of a server's relative health by calculating the average of the average deviation across all items in the high interest list.
+#Args: String serverString
+getServerHealth <- function(serverString){
+  healthDf <- getHighInterestDeviation() %>% filter(server == serverString) %>% transform(deviation = as.numeric(deviation))
+  return(c(serverString, mean(healthDf$deviation)))
+}
+
+#Returns a data frame object of all server's relative health by calculating the mean average deviation across the high interest list.
+#A value's proximity to 1 indicates its relative economic health, where 1 indicates expected average. Increasing indicates inflation, decreasing is deflation.
+#Args: N/A
+getGlobalHealth <- function(){
+  globalHealthDf <<- getHighInterestDeviation()
+  ghReturn <- data.frame()
+  ghDf <- data.frame()
+  for(i in 1:nrow(serverIDCrossClean)){
+    ghDf <- filter(globalHealthDf, server == serverIDCrossClean[i,2]) %>% transform(deviation = as.numeric(deviation))
+    ghReturn <- rbind(ghReturn, c(serverIDCrossClean[i,2], mean(ghDf$deviation), serverIDCrossClean[i,3]))
+  }
+  colnames(ghReturn) <- c("server", "deviation", "dateupdated")
+  return (ghReturn)
 }
