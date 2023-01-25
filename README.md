@@ -9,7 +9,7 @@ an economic health index utilizing the Average Deviation and Absolute Average De
 NWMAT is explicitly designed with the scope of feeding dashboard applications such as Tableau with properly formatted data for visualization and quick reference. It also
 servers to chart and archive economic trends in New World's simulated economies. 
 
-NWMAT queries 28 JSON streams from NWMarketPrices, parses this information into easily manipulated formats, and passes this out thorugh various queries. 
+NWMAT queries 28 JSON streams from NWMarketPrices, parses this information into easily manipulated formats, and passes this out in CSV format through various queries. 
 
 NWMAT has the ability to parse over 5800 itemized entries, but by default polls only 51 predefined key commodity goods, those of which have extremely high trade-volume.
 
