@@ -7,7 +7,7 @@ an economic health index utilizing the Average Deviation and Absolute Average De
 
 # HOW DOES IT WORK
 NWMAT is explicitly designed with the scope of feeding dashboard applications such as Tableau with properly formatted data for visualization and quick reference. It also
-servers to chart and archive economic trends in New World's simulated economies. 
+serves to chart and archive economic trends in New World's simulated economies. 
 
 NWMAT queries 28 JSON streams from NWMarketPrices, parses this information into easily manipulated formats, and passes this out in CSV format through various queries. 
 
