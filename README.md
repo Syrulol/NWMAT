@@ -5,11 +5,6 @@ A practical application of learned skills in R to query New World Marketplace's 
 NWMAT is a suite of R scripts designed to poll information from NWMarketPrices for the online MMORPG "New World", specifically identifying 51 key commodity goods to create an economic health index utilizing the Average Deviation and Absolute Average Deviation statistical variation modeling. 
 
 # HOW DOES IT WORK
-NWMAT is explicitly designed with the scope of feeding dashboard applications such as Tableau with properly formatted data for visualization and quick reference. It also
-serves to chart and archive economic trends in New World's simulated economies. 
+New World Market Asssessment Tool implements jsonlite to automatically detect and query up to date information in JSON format from https://www.nwmarketprices.com. These JSON objects are parsed by R into data frame objects, which are then further manipulated to allow for rapid querying and filtering of targeted data. Utilizing Average-Absolute Deviation and Average Distribution variation calculations, we are able to assign an economic health rating to servers based on their deviation from the global economy. 
 
-NWMAT queries 28 JSON streams from NWMarketPrices, parses this information into easily manipulated formats, and passes this out in CSV format through various queries. 
-
-NWMAT has the ability to parse over 5800 itemized entries, but by default polls only 51 predefined key commodity goods, those of which have extremely high trade-volume.
-
-NWMAT is dependant on NWMarketPrices API, but is futureproofed. Server merges, environment changes, etc., should not impact the tool nor the economic data or fitment models used. 
+NWMAT is designed to primarily function from the console to output .CSV data which is used to feed dashboards in Tableau and Excel to more rapidly identify trends and compare/contrast the statuses of various economies. 
