@@ -1,4 +1,4 @@
-# NWMAT
+# New World Market Assessment Toolkit
 A practical application of learned skills in R to query New World Marketplace's API and pass desired information into CSV-format for manipulation in Excel, Sheets, Tableau, etc. 
 
 # WHAT IS NWMAT
