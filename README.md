@@ -2,8 +2,7 @@
 A practical application of learned skills in R to query New World Marketplace's API and pass desired information into CSV-format for manipulation in Excel, Sheets, Tableau, etc. 
 
 # WHAT IS NWMAT
-NWMAT is a suite of R scripts designed to poll information from NWMarketPrices for the online MMORPG "New World", specifically identifying 51 key commodity goods to create
-an economic health index utilizing the Average Deviation and Absolute Average Deviation statistical variation modeling. 
+NWMAT is a suite of R scripts designed to poll information from NWMarketPrices for the online MMORPG "New World", specifically identifying 51 key commodity goods to create an economic health index utilizing the Average Deviation and Absolute Average Deviation statistical variation modeling. 
 
 # HOW DOES IT WORK
 NWMAT is explicitly designed with the scope of feeding dashboard applications such as Tableau with properly formatted data for visualization and quick reference. It also
