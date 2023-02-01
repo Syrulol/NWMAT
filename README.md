@@ -9,6 +9,12 @@ New World Market Asssessment Tool implements jsonlite to automatically detect an
 
 NWMAT is designed to primarily function from the console to output .CSV data which is used to feed dashboards in Tableau and Excel to more rapidly identify trends and compare/contrast the statuses of various economies. 
 
+# TABLEAU DASHBOARD EXAMPLE
+
+https://public.tableau.com/app/profile/michael.tigges/viz/NewWorldServerEconomyAnalysis/Dashboard1
+
+The above Tableau dashboard identifies key performance indicators for economic status across the various server environments, highlighting deviations in pricing across 4 performance indicators, as well as graphing the current Average-Deviation of the server's economy. 
+
 # TODO
 - Content aware updating utilizing timestamping in server-ID API. 
 - Data validation for specific item queries
